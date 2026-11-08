@@ -31,14 +31,30 @@ def bfs(graph, start, target):
         graph = {0: [1, 2], 1: [0, 3], 2: [0], 3: [1]}
         bfs(graph, 0, 3) returns [0, 1, 3]
     """
-    # TODO: Implement BFS
-    # Hints:
-    # - Use a queue (deque) to track nodes to visit
-    # - Track visited nodes to avoid cycles
-    # - Track parent pointers to reconstruct path
-    # - Return path from start to target as a list
-    
-    pass
+    if start == target:
+        return [start]
+
+    queue = deque([start])
+    visited = {start}
+    parents = {}
+
+    while queue:
+        current = queue.popleft()
+
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current
+
+                if neighbor == target:
+                    path = [target]
+                    while path[-1] != start:
+                        path.append(parents[path[-1]])
+                    return path[::-1]
+
+                queue.append(neighbor)
+
+    return []
 
 
 # ============================================================================
@@ -60,13 +76,18 @@ def dfs(graph, start):
         graph = {0: [1, 2], 1: [0, 3], 2: [0], 3: [1], 4: [5], 5: [4]}
         dfs(graph, 0) returns {0, 1, 2, 3}
     """
-    # TODO: Implement DFS
-    # Hints:
-    # - Use recursion or a stack to explore deeply
-    # - Track visited nodes to avoid infinite loops
-    # - Return a set of all reachable user IDs
-    
-    pass
+    visited = {start}
+    stack = [start]
+
+    while stack:
+        current = stack.pop()
+
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                stack.append(neighbor)
+
+    return visited
 
 
 # ============================================================================
